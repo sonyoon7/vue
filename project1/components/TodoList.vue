@@ -1,7 +1,8 @@
 <template>
   <section>
     <ui>
-      <li v-for="(todoItem,index) in todoItems" :key="todoItem" class="shadow">
+      <li v-for="(todoItem,index) in propsdata" :key="todoItem" class="shadow">
+        <!-- <li v-for="(todoItem,index) in todoItems" :key="todoItem" class="shadow"> -->
         <i class="checkBtn fas fa-check" aria-hidden="true"></i>
         {{todoItem}}
         <span
@@ -18,23 +19,24 @@
 
 <script>
 export default {
-  data() {
-    return {
-      todoItems: []
-    };
-  },
-  created() {
-    if (localStorage.length > 0) {
-      for (var i = 0; i < localStorage.length; i++) {
-        this.todoItems.push(localStorage.key(i));
-      }
-    }
-  },
+  props: ["propsdata"],
+  //   data() {
+  //     return {
+  //       todoItems: []
+  //     };
+  //   },
+  //   created() {
+  //     if (localStorage.length > 0) {
+  //       for (var i = 0; i < localStorage.length; i++) {
+  //         this.todoItems.push(localStorage.key(i));
+  //       }
+  //     }
+  //   },
   methods: {
+    //App.vue 로 이벤트 전달
     removeTodo(todoItem, index) {
-      console.info(todoItem, index);
-      localStorage.removeItem(todoItem);
-      this.todoItems.splice(index, 1);
+      //하위 컴포넌트에서 이벤트를 발생시켜 상위 컴포넌트로 신호를 보낼 떄 $emit('이벤트이름', '인자1', '인자2')
+      this.$emit("removeTodo", todoItem, index);
     }
   }
 };

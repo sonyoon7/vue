@@ -24,7 +24,8 @@ export default {
     addTodo() {
       if (this.newTodoItem !== "") {
         var value = this.newTodoItem && this.newTodoItem.trim();
-        localStorage.setItem(value, value);
+        // localStorage.setItem(value, value);
+        this.$emit("addTodo", value); //value 값을 방출함
         this.clearInput();
       }
 
