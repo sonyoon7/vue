@@ -1,6 +1,6 @@
 <template>
   <section>
-    <ui>
+    <transition-group name="list" tag="ui">
       <li v-for="(todoItem,index) in propsdata" :key="todoItem" class="shadow">
         <!-- <li v-for="(todoItem,index) in todoItems" :key="todoItem" class="shadow"> -->
         <i class="checkBtn fas fa-check" aria-hidden="true"></i>
@@ -13,7 +13,7 @@
           <i class="far fa-trash-alt" aria-hidden="true"></i>
         </span>
       </li>
-    </ui>
+    </transition-group>
   </section>
 </template>
 
