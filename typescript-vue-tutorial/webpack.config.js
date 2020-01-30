@@ -1,12 +1,17 @@
 var path = require('path')
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   entry: './src/index.ts',
+// <img src="picture.jpg">라는 코드를 Webpack은 <img src="/assets/picture.jpg">이렇게 바꿀것이다.
+// 그래서 내 앱이 http://server.com/에서 돌아가고 있다면, 브라우저는 http://server.com/assets/picture.jpg파일을 읽어들일것이다.
+// 이런 prefix의 기능을 활용해서 js / css / font파일이 cdn서버에서 가져와질 수 있도록 할 수 있다. 
+// publicPath : "http://cdn.com/" 이렇게 해놓으면 파일들의 root path가 다 cdn.com으로 되서 저 서버에서 해당 파일들이 가져와질것이다.
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    // publicPath: '/dist/',
     filename: 'build.js'
   },
   module: {
@@ -60,7 +65,12 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    noInfo: true
+    noInfo: true,
+    contentBase: __dirname + "/dist/",
+    inline: true,
+    hot: true,
+    host: "localhost",
+    port: 5500
   },
   performance: {
     hints: false
@@ -68,7 +78,11 @@ module.exports = {
   devtool: '#eval-source-map',
   plugins: [
     // make sure to include the plugin for the magic
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new HtmlWebpackPlugin({
+      // index.html 템플릿을 기반으로 빌드 결과물을 추가해줌
+      template: 'index.html'
+    })
   ]
 }
 
